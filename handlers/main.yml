@@ -1,0 +1,7 @@
+---
+# this is a dummy task to be able to notify the "restart sssd" handler
+# even when this role is used without "ldap_auth"
+- name: restart sssd (dummy)
+  command: /bin/true
+  changed_when: false
+  listen: "restart sssd"
