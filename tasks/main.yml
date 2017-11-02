@@ -3,6 +3,7 @@
     file: freeipa.yml
 
 - name: install required packages
+  become: True
   apt:
     name: "{{ item }}"
     state: present
@@ -12,12 +13,14 @@
     - krb5-user
 
 - name: set nisdomainname
+  become: True
   sysctl:
     name: kernel.domainname
     value: "{{ freeipa.domain }}"
     state: present
 
 - name: generate krb5.conf
+  become: True
   template:
     src: etc_krb5.conf.j2
     dest: /etc/krb5.conf
