@@ -5,12 +5,10 @@
 - name: install required packages
   become: True
   apt:
-    name: "{{ item }}"
+    name: krb5-user
     state: present
     update_cache: yes
     cache_valid_time: 1800
-  with_items:
-    - krb5-user
 
 - name: set nisdomainname
   become: True
