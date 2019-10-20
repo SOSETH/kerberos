@@ -1,38 +1,19 @@
 [libdefaults]
-        default_realm = {{ freeipa.domain|upper }}
+    default_realm = {{ kerberos_realm }}
 
-# The following krb5.conf variables are only for MIT Kerberos.
-        krb4_config = /etc/krb.conf
-        krb4_realms = /etc/krb.realms
-        kdc_timesync = 1
-        ccache_type = 4
-        forwardable = true
-        proxiable = true
-
-# The following libdefaults parameters are only for Heimdal Kerberos.
-        v4_instance_resolve = false
-        v4_name_convert = {
-                host = {
-                        rcmd = host
-                        ftp = ftp
-                }
-                plain = {
-                        something = something-else
-                }
-        }
-        fcc-mit-ticketflags = true
+    kdc_timesync = 1
+    ccache_type = 4
+    forwardable = true
+    proxiable = true
 
 [realms]
-        SOS.ETHZ.CH = {
-                kdc = dc1.{{ freeipa.domain }}
-                kdc = dc2.{{ freeipa.domain }}
-                admin_server = dc1.{{ freeipa.domain }}
-        }
+    {{ kerberos_realm }} = {
+{% for item in kerberos_kdcs %}
+        kdc = {{ item }}
+{% endfor %}
+        admin_server = {{ kerberos_kdcs | first }}
+    }
 
 [domain_realm]
-        {{ freeipa.domain }} = {{ freeipa.domain|upper }}
-        .{{ freeipa.domain }} = {{ freeipa.domain|upper }}
-
-[login]
-        krb4_convert = true
-        krb4_get_tickets = false
+        {{ kerberos_realm | lower }} = {{ kerberos_realm }}
+        .{{ kerberos_realm | lower }} = {{ kerberos_realm }}
