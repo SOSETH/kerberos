@@ -1,0 +1,14 @@
+---
+- name: kinit
+  command: kinit "{{ kerberos_kinit_principal }}"
+  args:
+    stdin: "{{ kerberos_kinit_password }}"
+  delegate_to: "{{ kerberos_freeipa_runner }}"
+
+- name: Retrieve keytab from FreeIPA server
+  command: ipa-getkeytab -p "{{ kerberos_keytab_principal }}" -k /tmp/ansible.keytab
+  delegate_to: "{{ kerberos_freeipa_runner }}"
+
+- name: kdestroy
+  command: kdestroy
+  delegate_to: "{{ kerberos_freeipa_runner }}"
