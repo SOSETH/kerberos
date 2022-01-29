@@ -4,7 +4,6 @@
   apt:
     name: krb5-user
     state: present
-    update_cache: yes
     cache_valid_time: 1800
 
 - name: set nisdomainname
@@ -12,6 +11,8 @@
   sysctl:
     name: kernel.domainname
     value: "{{ kerberos_realm }}"
+    sysctl_file: /etc/sysctl.d/ansible_kerberos.conf
+    reload: True
     state: present
 
 - name: generate krb5.conf
