@@ -1,7 +1,7 @@
 ---
-# this is a dummy task to be able to notify the "restart sssd" handler
+# this is a dummy task to be able to notify the "Restart SSSD" handler
 # even when this role is used without "ldap_auth"
 - name: Restart SSSD (dummy)
   ansible.builtin.command: /bin/true
   changed_when: false
-  listen: "restart sssd"
+  listen: "Restart SSSD"
