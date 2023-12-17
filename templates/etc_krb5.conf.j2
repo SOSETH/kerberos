@@ -6,6 +6,8 @@
     forwardable = true
     proxiable = true
 
+    rdns = false
+
 [realms]
     {{ kerberos_realm }} = {
 {% for item in kerberos_kdcs %}
